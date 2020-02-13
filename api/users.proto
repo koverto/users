@@ -1,0 +1,21 @@
+syntax = "proto3";
+
+import "github.com/gogo/protobuf@v1.3.1/gogoproto/gogo.proto";
+import "github.com/koverto/uuid/uuid.proto";
+import "google/protobuf/timestamp.proto";
+
+package users;
+
+service Users {
+    rpc Create(User) returns (User) {}
+    rpc Get(User) returns (User) {}
+}
+
+message User {
+    uuid.UUID id = 1 [(gogoproto.moretags) = "bson:\"_id\""];
+    string name = 2;
+    string email = 3;
+    google.protobuf.Timestamp createdAt = 4 [(gogoproto.stdtime) = true];
+    google.protobuf.Timestamp updatedAt = 5 [(gogoproto.stdtime) = true];
+    google.protobuf.Timestamp deletedAt = 6 [(gogoproto.stdtime) = true];
+}
