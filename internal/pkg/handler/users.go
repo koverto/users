@@ -71,5 +71,5 @@ func (u *Users) Read(ctx context.Context, in *users.User, out *users.User) error
 }
 
 func (u *Users) Update(ctx context.Context, in *users.User, out *users.User) error {
-	return nil
+	return fmt.Errorf("not yet implemented") // TODO
 }
