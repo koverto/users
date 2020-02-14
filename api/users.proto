@@ -8,7 +8,8 @@ package users;
 
 service Users {
     rpc Create(User) returns (User) {}
-    rpc Get(User) returns (User) {}
+    rpc Read(User) returns (User) {}
+    rpc Update(User) returns (User) {}
 }
 
 message User {

@@ -36,6 +36,10 @@ func (u *Users) Create(ctx context.Context, in *users.User, out *users.User) err
 	return nil
 }
 
-func (u *Users) Get(ctx context.Context, in *users.User, out *users.User) error {
+func (u *Users) Read(ctx context.Context, in *users.User, out *users.User) error {
+	return nil
+}
+
+func (u *Users) Update(ctx context.Context, in *users.User, out *users.User) error {
 	return nil
 }

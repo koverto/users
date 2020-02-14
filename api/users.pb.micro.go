@@ -38,7 +38,8 @@ var _ server.Option
 
 type UsersService interface {
 	Create(ctx context.Context, in *User, opts ...client.CallOption) (*User, error)
-	Get(ctx context.Context, in *User, opts ...client.CallOption) (*User, error)
+	Read(ctx context.Context, in *User, opts ...client.CallOption) (*User, error)
+	Update(ctx context.Context, in *User, opts ...client.CallOption) (*User, error)
 }
 
 type usersService struct {
@@ -63,8 +64,18 @@ func (c *usersService) Create(ctx context.Context, in *User, opts ...client.Call
 	return out, nil
 }
 
-func (c *usersService) Get(ctx context.Context, in *User, opts ...client.CallOption) (*User, error) {
-	req := c.c.NewRequest(c.name, "Users.Get", in)
+func (c *usersService) Read(ctx context.Context, in *User, opts ...client.CallOption) (*User, error) {
+	req := c.c.NewRequest(c.name, "Users.Read", in)
+	out := new(User)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *usersService) Update(ctx context.Context, in *User, opts ...client.CallOption) (*User, error) {
+	req := c.c.NewRequest(c.name, "Users.Update", in)
 	out := new(User)
 	err := c.c.Call(ctx, req, out, opts...)
 	if err != nil {
@@ -77,13 +88,15 @@ func (c *usersService) Get(ctx context.Context, in *User, opts ...client.CallOpt
 
 type UsersHandler interface {
 	Create(context.Context, *User, *User) error
-	Get(context.Context, *User, *User) error
+	Read(context.Context, *User, *User) error
+	Update(context.Context, *User, *User) error
 }
 
 func RegisterUsersHandler(s server.Server, hdlr UsersHandler, opts ...server.HandlerOption) error {
 	type users interface {
 		Create(ctx context.Context, in *User, out *User) error
-		Get(ctx context.Context, in *User, out *User) error
+		Read(ctx context.Context, in *User, out *User) error
+		Update(ctx context.Context, in *User, out *User) error
 	}
 	type Users struct {
 		users
@@ -100,6 +113,10 @@ func (h *usersHandler) Create(ctx context.Context, in *User, out *User) error {
 	return h.UsersHandler.Create(ctx, in, out)
 }
 
-func (h *usersHandler) Get(ctx context.Context, in *User, out *User) error {
-	return h.UsersHandler.Get(ctx, in, out)
+func (h *usersHandler) Read(ctx context.Context, in *User, out *User) error {
+	return h.UsersHandler.Read(ctx, in, out)
+}
+
+func (h *usersHandler) Update(ctx context.Context, in *User, out *User) error {
+	return h.UsersHandler.Update(ctx, in, out)
 }
