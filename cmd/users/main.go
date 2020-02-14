@@ -8,13 +8,26 @@ import (
 	"github.com/koverto/users/internal/pkg/handler"
 
 	"github.com/micro/go-micro/v2"
+	"github.com/micro/go-micro/v2/config/source/env"
 )
 
 func main() {
 	service := micro.NewService(micro.Name("users"))
 	service.Init()
 
-	if err := users.RegisterUsersHandler(service.Server(), new(handler.Users)); err != nil {
+	conf, err := handler.NewConfig("users", env.NewSource(env.WithStrippedPrefix("KOVERTO")))
+	if err != nil {
+		fmt.Println(err)
+		os.Exit(1)
+	}
+
+	h, err := handler.New(conf)
+	if err != nil {
+		fmt.Println(err)
+		os.Exit(1)
+	}
+
+	if err := users.RegisterUsersHandler(service.Server(), h); err != nil {
 		fmt.Println(err)
 		os.Exit(1)
 	}
