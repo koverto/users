@@ -4,6 +4,10 @@
 build: gen
 	go build ./cmd/users
 
+.PHONY: docker
+docker: build
+	docker build . -t koverto/users:latest
+
 .PHONY: gen
 gen:
 	go generate ./api
