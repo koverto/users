@@ -1,6 +1,6 @@
 # Koverto - Users
-[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fkoverto%2Fusers.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2Fkoverto%2Fusers?ref=badge_shield)
 
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fkoverto%2Fusers.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2Fkoverto%2Fusers?ref=badge_shield)
 
 ## Requirements
 
@@ -18,6 +18,6 @@ later][agpl].
 [mkcert]: https://github.com/FiloSottile/mkcert
 [mongodb]: https://www.mongodb.com/
 
-
 ## License
+
 [![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fkoverto%2Fusers.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2Fkoverto%2Fusers?ref=badge_large)
