@@ -2,10 +2,13 @@ package handler
 
 import (
 	"context"
+	"time"
 
 	users "github.com/koverto/users/api"
 
 	"github.com/koverto/mongo"
+	"github.com/koverto/uuid"
+	"go.mongodb.org/mongo-driver/bson"
 	mmongo "go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 	"go.mongodb.org/mongo-driver/x/bsonx"
@@ -33,7 +36,22 @@ func New(conf *Config) (*Users, error) {
 }
 
 func (u *Users) Create(ctx context.Context, in *users.User, out *users.User) error {
-	return nil
+	in.Id = uuid.New()
+	*in.CreatedAt = time.Now()
+
+	ins, err := bson.Marshal(in)
+	if err != nil {
+		return err
+	}
+
+	collection := u.client.Collection("users")
+	_, err = collection.InsertOne(ctx, ins)
+
+	if err == nil {
+		*out = *in
+	}
+
+	return err
 }
 
 func (u *Users) Read(ctx context.Context, in *users.User, out *users.User) error {
