@@ -6,6 +6,9 @@ import (
 	users "github.com/koverto/users/api"
 
 	"github.com/koverto/mongo"
+	mmongo "go.mongodb.org/mongo-driver/mongo"
+	"go.mongodb.org/mongo-driver/mongo/options"
+	"go.mongodb.org/mongo-driver/x/bsonx"
 )
 
 type Users struct {
@@ -17,6 +20,12 @@ func New(conf *Config) (*Users, error) {
 	if err != nil {
 		return nil, err
 	}
+
+	var index mmongo.IndexModel
+	index.Keys = bsonx.Doc{{Key: "email", Value: bsonx.Int32(1)}}
+	index.Options = options.Index().SetUnique(true)
+
+	client.DefineIndexes(mongo.NewIndexSet("users", index))
 
 	return &Users{
 		client,
