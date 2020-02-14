@@ -2,6 +2,7 @@ package handler
 
 import (
 	"context"
+	"fmt"
 	"time"
 
 	users "github.com/koverto/users/api"
@@ -55,7 +56,18 @@ func (u *Users) Create(ctx context.Context, in *users.User, out *users.User) err
 }
 
 func (u *Users) Read(ctx context.Context, in *users.User, out *users.User) error {
-	return nil
+	filter := bson.M{}
+
+	if in.Id != nil {
+		filter["_id"] = in.Id
+	} else if in.Email != "" {
+		filter["email"] = in.Email
+	} else {
+		return fmt.Errorf("no filter parameters specified")
+	}
+
+	collection := u.client.Collection("users")
+	return collection.FindOne(ctx, filter).Decode(out)
 }
 
 func (u *Users) Update(ctx context.Context, in *users.User, out *users.User) error {
