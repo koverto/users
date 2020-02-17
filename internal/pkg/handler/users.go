@@ -7,6 +7,7 @@ import (
 
 	users "github.com/koverto/users/api"
 
+	"github.com/koverto/errors"
 	"github.com/koverto/mongo"
 	"github.com/koverto/uuid"
 	"go.mongodb.org/mongo-driver/bson"
@@ -15,6 +16,7 @@ import (
 )
 
 type Users struct {
+	*Config
 	client mongo.Client
 }
 
@@ -33,7 +35,7 @@ func New(conf *Config) (*Users, error) {
 		return nil, err
 	}
 
-	return &Users{client}, nil
+	return &Users{conf, client}, nil
 }
 
 func (u *Users) Create(ctx context.Context, in *users.User, out *users.User) error {
@@ -67,9 +69,15 @@ func (u *Users) Read(ctx context.Context, in *users.User, out *users.User) error
 	}
 
 	collection := u.client.Collection("users")
-	return collection.FindOne(ctx, filter).Decode(out)
+	err := collection.FindOne(ctx, filter).Decode(out)
+
+	if err == mmongo.ErrNoDocuments {
+		return errors.NotFound(u.ID(), "no user found: %s", filter)
+	}
+
+	return err
 }
 
 func (u *Users) Update(ctx context.Context, in *users.User, out *users.User) error {
-	return fmt.Errorf("not yet implemented") // TODO
+	return errors.NotImplemented(u.ID())
 }
