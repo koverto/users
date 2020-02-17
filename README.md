@@ -6,7 +6,6 @@
 
 - [Go][] 1.13
 - [MongoDB][]
-- [mkcert][]
 
 ## Copyright
 
@@ -15,7 +14,6 @@ later][agpl].
 
 [agpl]: LICENSE
 [go]: https://golang.org/
-[mkcert]: https://github.com/FiloSottile/mkcert
 [mongodb]: https://www.mongodb.com/
 
 ## License
