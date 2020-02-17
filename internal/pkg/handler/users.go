@@ -12,7 +12,6 @@ import (
 	"go.mongodb.org/mongo-driver/bson"
 	mmongo "go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
-	"go.mongodb.org/mongo-driver/x/bsonx"
 )
 
 type Users struct {
@@ -26,10 +25,13 @@ func New(conf *Config) (*Users, error) {
 	}
 
 	var index mmongo.IndexModel
-	index.Keys = bsonx.Doc{{Key: "email", Value: bsonx.Int32(1)}}
+	index.Keys = bson.M{"email": 1}
 	index.Options = options.Index().SetUnique(true)
 
 	client.DefineIndexes(mongo.NewIndexSet("users", index))
+	if err := client.Connect(); err != nil {
+		return nil, err
+	}
 
 	return &Users{client}, nil
 }
