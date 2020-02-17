@@ -31,9 +31,7 @@ func New(conf *Config) (*Users, error) {
 
 	client.DefineIndexes(mongo.NewIndexSet("users", index))
 
-	return &Users{
-		client,
-	}, nil
+	return &Users{client}, nil
 }
 
 func (u *Users) Create(ctx context.Context, in *users.User, out *users.User) error {
