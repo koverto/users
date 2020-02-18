@@ -7,6 +7,12 @@ The format is based on [Keep a Changelog][], and this project adheres to
 
 ## Unreleased
 
+## v0.1.2 - 2020-02-17
+
+### Changed
+
+- Updated to github.com/koverto/uuid@v1.2.1
+
 ## v0.1.1 - 2020-02-17
 
 ### Changed
