@@ -15,6 +15,8 @@ import (
 	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
+const USERS_COLLECTION = "users"
+
 type Users struct {
 	*Config
 	client mongo.Client
@@ -30,7 +32,7 @@ func New(conf *Config) (*Users, error) {
 	index.Keys = bson.M{"email": 1}
 	index.Options = options.Index().SetUnique(true)
 
-	client.DefineIndexes(mongo.NewIndexSet("users", index))
+	client.DefineIndexes(mongo.NewIndexSet(USERS_COLLECTION, index))
 	if err := client.Connect(); err != nil {
 		return nil, err
 	}
@@ -49,7 +51,7 @@ func (u *Users) Create(ctx context.Context, in *users.User, out *users.User) err
 		return err
 	}
 
-	collection := u.client.Collection("users")
+	collection := u.client.Collection(USERS_COLLECTION)
 	_, err = collection.InsertOne(ctx, ins)
 
 	if err == nil {
@@ -70,7 +72,7 @@ func (u *Users) Read(ctx context.Context, in *users.User, out *users.User) error
 		return fmt.Errorf("no filter parameters specified")
 	}
 
-	collection := u.client.Collection("users")
+	collection := u.client.Collection(USERS_COLLECTION)
 	err := collection.FindOne(ctx, filter).Decode(out)
 
 	if err == mmongo.ErrNoDocuments {
