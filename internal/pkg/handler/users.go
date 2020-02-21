@@ -40,7 +40,9 @@ func New(conf *Config) (*Users, error) {
 
 func (u *Users) Create(ctx context.Context, in *users.User, out *users.User) error {
 	in.Id = uuid.New()
-	*in.CreatedAt = time.Now()
+
+	now := time.Now()
+	in.CreatedAt = &now
 
 	ins, err := bson.Marshal(in)
 	if err != nil {

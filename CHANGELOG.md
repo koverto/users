@@ -7,6 +7,10 @@ The format is based on [Keep a Changelog][], and this project adheres to
 
 ## Unreleased
 
+### Fixed
+
+- Fixed nil pointer panic in `Users.Create` when setting `User.createdAt`
+
 ## v0.1.2 - 2020-02-17
 
 ### Changed
