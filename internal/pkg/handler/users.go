@@ -8,6 +8,7 @@ import (
 	users "github.com/koverto/users/api"
 
 	"github.com/koverto/errors"
+	"github.com/koverto/micro"
 	"github.com/koverto/mongo"
 	"github.com/koverto/uuid"
 	"go.mongodb.org/mongo-driver/bson"
@@ -19,11 +20,16 @@ const USERS_COLLECTION = "users"
 
 type Users struct {
 	*Config
+	*micro.Service
 	client mongo.Client
 }
 
-func New(conf *Config) (*Users, error) {
-	client, err := mongo.NewClient(conf.MongoUrl, conf.Name)
+type Config struct {
+	MongoUrl string `json:"mongourl"`
+}
+
+func New(conf *Config, service *micro.Service) (*Users, error) {
+	client, err := mongo.NewClient(conf.MongoUrl, service.Name)
 	if err != nil {
 		return nil, err
 	}
@@ -37,7 +43,7 @@ func New(conf *Config) (*Users, error) {
 		return nil, err
 	}
 
-	return &Users{conf, client}, nil
+	return &Users{conf, service, client}, nil
 }
 
 func (u *Users) Create(ctx context.Context, in *users.User, out *users.User) error {
@@ -76,12 +82,12 @@ func (u *Users) Read(ctx context.Context, in *users.User, out *users.User) error
 	err := collection.FindOne(ctx, filter).Decode(out)
 
 	if err == mmongo.ErrNoDocuments {
-		return errors.NotFound(u.ID(), "no user found: %s", filter)
+		return errors.NotFound(u.ID, "no user found: %s", filter)
 	}
 
 	return err
 }
 
 func (u *Users) Update(ctx context.Context, in *users.User, out *users.User) error {
-	return errors.NotImplemented(u.ID())
+	return errors.NotImplemented(u.ID)
 }
