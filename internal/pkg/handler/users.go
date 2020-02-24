@@ -89,5 +89,14 @@ func (u *Users) Read(ctx context.Context, in *users.User, out *users.User) error
 }
 
 func (u *Users) Update(ctx context.Context, in *users.User, out *users.User) error {
-	return errors.NotImplemented(u.ID)
+	update := in.AsUpdateDocument()
+	if len(update) == 0 {
+		return nil
+	}
+
+	filter := bson.M{"_id": in.GetId()}
+	collection := u.client.Collection(USERS_COLLECTION)
+	opts := options.FindOneAndUpdate().SetReturnDocument(options.After)
+
+	return collection.FindOneAndUpdate(ctx, filter, update, opts).Decode(out)
 }
