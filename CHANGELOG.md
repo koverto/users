@@ -7,6 +7,13 @@ The format is based on [Keep a Changelog][], and this project adheres to
 
 ## Unreleased
 
+## v0.2.0 - 2020-03-05
+
+### Changed
+
+- Updated to github.com/koverto/micro@v1.2.0
+- Updated to github.com/koverto/uuid@v1.3.0
+
 ### Fixed
 
 - Fixed nil pointer panic in `Users.Create` when setting `User.createdAt`
