@@ -7,6 +7,10 @@ The format is based on [Keep a Changelog][], and this project adheres to
 
 ## Unreleased
 
+## v1.0.0 - 2020-03-05
+
+No changes; bumping version to reflect feature-complete state.
+
 ## v0.2.0 - 2020-03-05
 
 ### Changed
