@@ -7,6 +7,16 @@ The format is based on [Keep a Changelog][], and this project adheres to
 
 ## Unreleased
 
+## v1.0.1 - 2020-03-30
+
+### Added
+
+- `Client` helper struct
+
+### Changed
+
+- Updated to github.com/koverto/micro@v2.0.1
+
 ## v1.0.0 - 2020-03-05
 
 No changes; bumping version to reflect feature-complete state.

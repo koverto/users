@@ -8,7 +8,7 @@ import (
 	users "github.com/koverto/users/api"
 
 	"github.com/koverto/errors"
-	"github.com/koverto/micro"
+	"github.com/koverto/micro/v2"
 	"github.com/koverto/mongo"
 	"github.com/koverto/uuid"
 	"go.mongodb.org/mongo-driver/bson"
@@ -29,7 +29,7 @@ type Config struct {
 }
 
 func New(conf *Config, service *micro.Service) (*Users, error) {
-	client, err := mongo.NewClient(conf.MongoUrl, service.Name)
+	client, err := mongo.NewClient(conf.MongoUrl, "users")
 	if err != nil {
 		return nil, err
 	}
@@ -82,7 +82,7 @@ func (u *Users) Read(ctx context.Context, in *users.User, out *users.User) error
 	err := collection.FindOne(ctx, filter).Decode(out)
 
 	if err == mmongo.ErrNoDocuments {
-		return errors.NotFound(u.ID, "no user found: %s", filter)
+		return errors.NotFound(u.Name, "no user found: %s", filter)
 	}
 
 	return err

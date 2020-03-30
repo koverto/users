@@ -4,7 +4,7 @@ import (
 	users "github.com/koverto/users/api"
 	"github.com/koverto/users/internal/pkg/handler"
 
-	"github.com/koverto/micro"
+	"github.com/koverto/micro/v2"
 	"github.com/micro/go-micro/v2/config/source/env"
 	"github.com/rs/zerolog/log"
 )
@@ -14,7 +14,7 @@ func main() {
 		MongoUrl: "mongodb://localhost:27017",
 	}
 
-	service, err := micro.NewService("com.koverto.svc.users", conf, env.NewSource(env.WithStrippedPrefix("KOVERTO")))
+	service, err := micro.NewService(users.Name, conf, env.NewSource(env.WithStrippedPrefix("KOVERTO")))
 	if err != nil {
 		log.Fatal().AnErr("error", err).Msg("could not initialize service")
 	}
