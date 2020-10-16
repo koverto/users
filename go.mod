@@ -4,7 +4,7 @@ go 1.14
 
 require (
 	github.com/gogo/protobuf v1.3.1
-	github.com/golang/protobuf v1.3.5
+	github.com/golang/protobuf v1.4.3
 	github.com/koverto/errors v1.0.1
 	github.com/koverto/micro/v2 v2.0.1
 	github.com/koverto/mongo v1.0.1
